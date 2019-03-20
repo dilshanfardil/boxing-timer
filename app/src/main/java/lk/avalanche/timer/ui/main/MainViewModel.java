@@ -1,72 +1,91 @@
 package lk.avalanche.timer.ui.main;
 
+import android.app.Application;
 import android.os.CountDownTimer;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import lk.avalanche.timer.Timer.Timer;
+import lk.avalanche.timer.db.DataRepository;
+import lk.avalanche.timer.db.Entity.Data;
 
-public class MainViewModel extends ViewModel {
-    // TODO: Implement the ViewModel
-    public MutableLiveData<String> live_time=new MutableLiveData<>();
-    CountDownTimer timer;
-    static Long round_time=300000l,pause_time=0l;
-    private boolean isPause=false;
+public class MainViewModel extends AndroidViewModel {
+    protected static Timer timer;
+    private final DataRepository dataRepository;
+    public final LiveData<Data> liveData;
 
-    public void startTimer(){
-        if(!isPause){
-            timer = getTimer(round_time);
-        }
-        timer.start();
-        isPause=false;
+    public MainViewModel(@NonNull Application application) {
+        super(application);
+        dataRepository=new DataRepository(application);
+        Data value = dataRepository.getInitialData();
+        timer=new Timer(value);
+        liveData=dataRepository.getData();
     }
 
-    public void pauseTimer(){
-        isPause=true;
-        timer.cancel();
-        timer=getTimer(pause_time);
+    public void changeSetting(Data data){
+        timer.setDataChange(data);
     }
 
-    public void restartTimer(){
-        timer.cancel();
-        isPause=false;
-        startTimer();
-    }
-    private CountDownTimer getTimer(Long time) {
-        return new CountDownTimer(time, 1000) {
-            public void onTick(long millisUntilFinished) {
-                pause_time=millisUntilFinished;
-                String stringTime = getStringTime(millisUntilFinished);
-                live_time.setValue(stringTime);
-            }
-
-            public void onFinish() {
-                live_time.setValue("Done");
-            }
-        };
+    public void startTimer() {
+        timer.startTimer();
     }
 
-     static String getStringTime(long millisUntilFinished) {
-        NumberFormat formatter = new DecimalFormat("00");
-        long sec = millisUntilFinished / 1000;
-        long min = sec / 60;
-        long hour=min/60;
-        min=min%60;
-        sec=sec%60;
-        return formatter.format(hour)+":"+formatter.format(min)+":"+formatter.format(sec);
+    public void pauseTimer() {
+        timer.pauseTimer();
     }
+
+    public void resetTimer() {
+        timer.resetTimer();
+    }
+
+    public LiveData<String> getLiveData() {
+        return timer.getLive_time();
+    }
+
+
 
     public static class Model{
-        private String time=getStringTime(round_time);
+        private String milSec="00";
+        private String sec="00";
+        private String min="00";
+        private String current_round="1";
 
-        public String getTime() {
-            return time;
+        public String getMilSec() {
+            return milSec;
         }
 
-        public void setTime(String time) {
-            this.time = time;
+        public void setMilSec(String milSec) {
+            this.milSec = milSec;
+        }
+
+        public String getSec() {
+            return sec;
+        }
+
+        public void setSec(String sec) {
+            this.sec = sec;
+        }
+
+        public String getMin() {
+            return min;
+        }
+
+        public void setMin(String min) {
+            this.min = min;
+        }
+
+        public String getCurrent_round() {
+            return current_round;
+        }
+
+        public void setCurrent_round(String current_round) {
+            this.current_round = current_round;
         }
     }
 }

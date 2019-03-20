@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
 import lk.avalanche.timer.ui.main.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,12 +18,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, MainFragment.newInstance())
-                    .commitNow();
-        }
     }
 
     @Override
@@ -36,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.setting:
-                startActivity(new Intent(MainActivity.this,SettingsActivity.class));
+                Navigation.findNavController(this,R.id.main).navigate(R.id.action_main_to_setting);
+                //startActivity(new Intent(MainActivity.this,SettingsActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
