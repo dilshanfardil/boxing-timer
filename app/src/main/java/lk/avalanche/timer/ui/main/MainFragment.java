@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 
 import lk.avalanche.timer.R;
 import lk.avalanche.timer.databinding.MainFragmentBinding;
+import lk.avalanche.timer.db.Entity.Data;
 
 public class MainFragment extends Fragment {
 
@@ -44,6 +45,12 @@ public class MainFragment extends Fragment {
         final MainViewModel.Model model = new MainViewModel.Model();
         binding.setModel(model);
 
+        mViewModel.liveData.observe(this, new Observer<Data>() {
+            @Override
+            public void onChanged(Data data) {
+                mViewModel.changeSetting(data);
+            }
+        });
 
         binding.btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,15 +91,18 @@ public class MainFragment extends Fragment {
         binding.btnRestart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mViewModel.restartTimer();
+                mViewModel.resetTimer();
             }
         });
 
-
-        mViewModel.live_time.observe(this, new Observer<String>() {
+        mViewModel.getLiveData().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                model.setTime(s);
+                String[] split = s.split(":");
+                model.setMin(split[1]);
+                model.setSec(split[2]);
+                model.setMilSec(split[3]);
+                model.setCurrent_round(split[4]);
                 binding.setModel(model);
             }
         });
