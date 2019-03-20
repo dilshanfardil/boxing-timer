@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.database.DatabaseUtils;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ public class MainFragment extends Fragment {
 
     private MainViewModel mViewModel;
     private MainFragmentBinding binding;
+    private boolean bool = true;
     public static MainFragment newInstance() {
         return new MainFragment();
     }
@@ -42,30 +44,57 @@ public class MainFragment extends Fragment {
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         final MainViewModel.Model model = new MainViewModel.Model();
         binding.setModel(model);
+
         mViewModel.liveData.observe(this, new Observer<Data>() {
             @Override
             public void onChanged(Data data) {
                 mViewModel.changeSetting(data);
             }
         });
+
         binding.btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(bool){
+                    binding.btnStart.setBackground(getResources().getDrawable(R.drawable.pause_background));
+                    bool = !bool;
+                    /**
+                     * Implement the play function here
+                     * */
+
+                }else{
+                    binding.btnStart.setBackground(getResources().getDrawable(R.drawable.play));
+                    bool = !bool;
+
+                    /**
+                     * Implement the pause function here
+                     * */
+
+
+                }
+
+
                 mViewModel.startTimer();
             }
         });
+
+
         binding.btnPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mViewModel.pauseTimer();
             }
         });
+
+
         binding.btnRestart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mViewModel.resetTimer();
             }
         });
+
         mViewModel.getLiveData().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
