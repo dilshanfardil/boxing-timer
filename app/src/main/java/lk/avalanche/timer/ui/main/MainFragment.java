@@ -1,22 +1,16 @@
 package lk.avalanche.timer.ui.main;
 
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
-import android.database.DatabaseUtils;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import lk.avalanche.timer.R;
 import lk.avalanche.timer.databinding.MainFragmentBinding;
 
@@ -25,9 +19,6 @@ public class MainFragment extends Fragment {
     private MainViewModel mViewModel;
     private MainFragmentBinding binding;
     private boolean bool = true;
-    public static MainFragment newInstance() {
-        return new MainFragment();
-    }
 
     @Nullable
     @Override
@@ -44,58 +35,34 @@ public class MainFragment extends Fragment {
         final MainViewModel.Model model = new MainViewModel.Model();
         binding.setModel(model);
 
+        mViewModel.liveData.observe(this, data -> mViewModel.changeSetting(data));
 
-        binding.btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.btnStart.setOnClickListener(v -> {
 
-                if(bool){
-                    binding.btnStart.setBackground(getResources().getDrawable(R.drawable.pause_background));
-                    bool = !bool;
-                    /**
-                     * Implement the play function here
-                     * */
-
-                }else{
-                    binding.btnStart.setBackground(getResources().getDrawable(R.drawable.play));
-                    bool = !bool;
-
-                    /**
-                     * Implement the pause function here
-                     * */
-
-
-                }
-
-
+            if(bool){
+                binding.btnStart.setBackground(getResources().getDrawable(R.drawable.pause_background));
+                bool = !bool;
                 mViewModel.startTimer();
-            }
-        });
-
-
-        binding.btnPause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            }else{
+                binding.btnStart.setBackground(getResources().getDrawable(R.drawable.play));
+                bool = !bool;
                 mViewModel.pauseTimer();
             }
         });
 
 
-        binding.btnRestart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewModel.restartTimer();
-            }
+        binding.btnReset.setOnClickListener(v -> mViewModel.resetTimer());
+
+        mViewModel.getLiveData().observe(this, s -> {
+            String[] split = s.split(":");
+            model.setMin(split[1]);
+            model.setSec(split[2]);
+            model.setMilSec(split[3]);
+            model.setCurrent_round(split[4]);
+            binding.setModel(model);
         });
 
-
-        mViewModel.live_time.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                model.setTime(s);
-                binding.setModel(model);
-            }
-        });
+        binding.btnSetting.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_main_to_setting));
     }
 
 }
