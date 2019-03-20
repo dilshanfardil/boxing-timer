@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="lk.avalanche.timer.ui.main.MainFragment"
+        android:label="main_fragment"
+        tools:layout="@layout/main_fragment" >
+        <action
+            android:id="@+id/action_main_to_setting"
+            app:destination="@id/settingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="lk.avalanche.timer.ui.main.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_setting_to_sound"
+            app:destination="@id/soundSettingFragment" />
+        <action
+            android:id="@+id/action_setting_to_time"
+            app:destination="@id/timeSettingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/soundSettingFragment"
+        android:name="lk.avalanche.timer.ui.main.SoundSettingFragment"
+        android:label="sound_setting_fragment"
+        tools:layout="@layout/sound_setting_fragment" />
+    <fragment
+        android:id="@+id/timeSettingFragment"
+        android:name="lk.avalanche.timer.ui.main.TimeSettingFragment"
+        android:label="time_setting_fragment"
+        tools:layout="@layout/time_setting_fragment" />
+</navigation>
