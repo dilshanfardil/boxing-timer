@@ -7,8 +7,10 @@
     <color name="colorBackground">#000000</color>
 
 
-
+    <color name="colorNormalText">#ffffff</color>
     <color name="fightTextColor">#FF6F00</color>
+
+    <color name="horizontal_line">#C0C0C0</color>
 
 
 

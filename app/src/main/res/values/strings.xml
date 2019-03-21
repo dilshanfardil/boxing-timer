@@ -82,4 +82,27 @@
     <string name="colon">:</string>
 
     <string name="zero">00</string>
+
+
+
+    <!--Strings for Settings-->
+
+    <string name="round_len_minute">02</string>
+    <string name="round_len_second">00</string>
+    <string name="txt_round_length">Round Length</string>
+
+    <string name="rest_time_minute">01</string>
+    <string name="rest_time_seconds">00</string>
+    <string name="txt_rest_time">Rest Time</string>
+
+    <string name="round_no">05</string>
+    <string name="txt_round">Round</string>
+
+    <string name="select_sound">Select Sound</string>
+    <string name="countdown_tone">Countdown Tone</string>
+    <string name="select_countdown_tone">Cheerful</string>
+    <string name="bell_tone">Bell Tone</string>
+    <string name="select_bell_tone">Drum</string>
+
+
 </resources>
