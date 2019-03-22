@@ -1,4 +1,4 @@
-package lk.avalanche.timer;
+package lk.avalanche.timer.ui.main;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -7,22 +7,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import lk.avalanche.timer.SoundFragment.OnListFragmentInteractionListener;
-import lk.avalanche.timer.ListContent.SoundContent.DummyItem;
+import lk.avalanche.timer.R;
+import lk.avalanche.timer.ui.main.SoundFragment.OnListFragmentInteractionListener;
+import lk.avalanche.timer.ListContent.SoundContent.SoundItem;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link SoundItem} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class SoundRecyclerViewAdapter extends RecyclerView.Adapter<SoundRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<SoundItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public SoundRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public SoundRecyclerViewAdapter(List<SoundItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -61,7 +62,7 @@ public class SoundRecyclerViewAdapter extends RecyclerView.Adapter<SoundRecycler
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public SoundItem mItem;
 
         public ViewHolder(View view) {
             super(view);

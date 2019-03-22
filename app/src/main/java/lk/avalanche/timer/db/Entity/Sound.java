@@ -25,6 +25,11 @@ public class Sound {
     private String name;
     private boolean type;
 
+    public Sound(String name, boolean type) {
+        this.name = name;
+        this.type = type;
+    }
+
     public int getId() {
         return id;
     }

@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import lk.avalanche.timer.R;
 import lk.avalanche.timer.databinding.MainFragmentBinding;
+import lk.avalanche.timer.db.Entity.Data;
 
 public class MainFragment extends Fragment {
 
@@ -21,6 +22,8 @@ public class MainFragment extends Fragment {
     private MainFragmentBinding binding;
     private boolean bool = true;
     private Integer countdown_limit = 6;
+    MediaPlayer bell;
+    MediaPlayer countdown;
 
     @Nullable
     @Override
@@ -35,10 +38,11 @@ public class MainFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         final MainViewModel.Model model = new MainViewModel.Model();
-        MediaPlayer bell = MediaPlayer.create(getContext(), R.raw.bell);
-        MediaPlayer countdown = MediaPlayer.create(getContext(), R.raw.countdown);
         binding.setModel(mViewModel.getInitilaData());
-        mViewModel.liveData.observe(this, data -> mViewModel.changeSetting(data));
+        mViewModel.liveData.observe(this, data -> {
+            mViewModel.changeSetting(data);
+            updateSound(data);
+        });
 
         binding.btnStart.setOnClickListener(v -> {
             if(bool){
@@ -78,6 +82,11 @@ public class MainFragment extends Fragment {
         binding.btnSetting.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_main_to_setting));
     }
 
+    private void updateSound(Data data) {
+        bell = MediaPlayer.create(getContext(), getResourceId(data.getBellSound(), "raw", getActivity().getPackageName()));
+        countdown = MediaPlayer.create(getContext(), getResourceId(data.getCountDownSound(), "raw", getActivity().getPackageName()));
+    }
+
     private void playSound(MediaPlayer bell, MediaPlayer countdown, String[] prevSec, String s, String secStr) {
         Integer intSec = Integer.valueOf(secStr);
         if (intSec == 0 & Integer.valueOf(s) <= 10) bell.start();
@@ -92,4 +101,12 @@ public class MainFragment extends Fragment {
         prevSec[0] = secStr;
     }
 
+    public int getResourceId(String pVariableName, String pResourcename, String pPackageName) {
+        try {
+            return getResources().getIdentifier(pVariableName, pResourcename, pPackageName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
 }

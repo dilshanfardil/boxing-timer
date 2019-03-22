@@ -9,7 +9,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import lk.avalanche.timer.db.Entity.Data;
+import lk.avalanche.timer.db.Entity.Sound;
 import lk.avalanche.timer.db.dao.DataDao;
+import lk.avalanche.timer.db.dao.SoundDao;
 
 /*
  * Developed by Lahiru Muthumal on 3/20/2019.
@@ -26,9 +28,11 @@ import lk.avalanche.timer.db.dao.DataDao;
  * property rights in these materials.
  *
  */
-@androidx.room.Database(entities = {Data.class},version = 1,exportSchema = false)
+@androidx.room.Database(entities = {Data.class, Sound.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract DataDao dataDao();
+
+    public abstract SoundDao soundDao();
     private static AppDatabase INSTANCE;
 
     public static AppDatabase getDatabase(final Context context) {
@@ -46,12 +50,19 @@ public abstract class AppDatabase extends RoomDatabase {
                                     Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
                                         @Override
                                         public void run() {
-                                            getDatabase(context).dataDao().insert(
+                                            AppDatabase database = getDatabase(context);
+                                            database.dataDao().insert(
                                                     new Data(180000l,
                                                             120000l,
                                                             (long) 10,
-                                                            "none",
-                                                            "none"));
+                                                            "countdown",
+                                                            "bell"));
+                                            SoundDao soundDao = database.soundDao();
+                                            soundDao.insert(new Sound("bell", true));
+                                            soundDao.insert(new Sound("countdown", true));
+                                            soundDao.insert(new Sound("bell", false));
+                                            soundDao.insert(new Sound("countdown", false));
+
                                         }
                                     });
 

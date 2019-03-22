@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/soundFragment"
-        android:name="lk.avalanche.timer.SoundFragment"
+        android:name="lk.avalanche.timer.ui.main.SoundFragment"
         android:label="fragment_sound_list"
         tools:layout="@layout/fragment_sound_list" />
 </navigation>

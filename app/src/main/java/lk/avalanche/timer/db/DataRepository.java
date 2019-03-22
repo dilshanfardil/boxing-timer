@@ -21,16 +21,20 @@ import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import lk.avalanche.timer.db.Entity.Data;
+import lk.avalanche.timer.db.Entity.Sound;
 import lk.avalanche.timer.db.dao.DataDao;
+import lk.avalanche.timer.db.dao.SoundDao;
 
 public class DataRepository {
     private Context context;
     private AppDatabase APP_App_DATABASE_INSTANCE;
     private DataDao dataDao;
+    private SoundDao soundDao;
 
     public DataRepository(Context context) {
         APP_App_DATABASE_INSTANCE = AppDatabase.getDatabase(context);
         dataDao=APP_App_DATABASE_INSTANCE.dataDao();
+        soundDao = APP_App_DATABASE_INSTANCE.soundDao();
         this.context=context;
     }
 
@@ -52,5 +56,9 @@ public class DataRepository {
     public void updateData(Data data){
         data.setId(1);
         dataDao.updateData(data);
+    }
+
+    public List<Sound> getSoundByType(boolean type) {
+        return soundDao.getByType(type);
     }
 }
