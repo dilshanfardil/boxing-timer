@@ -40,12 +40,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_setting_to_sound">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_setting_to_time">
+                            <entry key="action_setting_to_main">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -55,25 +50,13 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="soundSettingFragment">
+                  <entry key="soundFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="549" />
-                            <option name="y" value="-60" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="timeSettingFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="556" />
-                            <option name="y" value="257" />
+                            <option name="x" value="580" />
+                            <option name="y" value="145" />
                           </Point>
                         </option>
                       </LayoutPositions>
