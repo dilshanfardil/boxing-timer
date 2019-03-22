@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="lk.avalanche.timer.ui.main.SettingViewModel.DataModel" />
+    </data>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
@@ -66,7 +73,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/round_len_minute"
+                                android:text="@{model.roundTimeMin}"
                                 android:textColor="@color/colorNormalText"
                                 android:textSize="40sp" />
 
@@ -84,7 +91,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/round_len_second"
+                                android:text="@{model.roundTimeSec}"
                                 android:textColor="@color/colorNormalText"
                                 android:textSize="40sp" />
 
@@ -116,7 +123,7 @@
                             android:orientation="vertical">
 
                             <Button
-                                android:id="@+id/btnMinus"
+                                android:id="@+id/btnMinusRoundTime"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:background="@drawable/minus" />
@@ -138,7 +145,7 @@
                             android:orientation="vertical">
 
                             <Button
-                                android:id="@+id/btnPlus"
+                                android:id="@+id/btnPlusRoundTime"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:background="@drawable/plus" />
@@ -205,7 +212,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/rest_time_minute"
+                                android:text="@{model.invlTimeMin}"
                                 android:textColor="@color/colorNormalText"
                                 android:textSize="40sp" />
 
@@ -223,7 +230,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/rest_time_seconds"
+                                android:text="@{model.invlTimeSec}"
                                 android:textColor="@color/colorNormalText"
                                 android:textSize="40sp" />
 
@@ -255,7 +262,7 @@
                             android:orientation="vertical">
 
                             <Button
-                                android:id="@+id/btnMinus2"
+                                android:id="@+id/btnMinusInvlTime"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:background="@drawable/minus" />
@@ -275,7 +282,7 @@
                             android:orientation="vertical">
 
                             <Button
-                                android:id="@+id/btnPlus2"
+                                android:id="@+id/btnPlusInvlTime"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:background="@drawable/plus" />
@@ -342,7 +349,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/round_no"
+                                android:text="@{model.numOfRound.toString()}"
                                 android:textColor="@color/colorNormalText"
                                 android:textSize="40sp" />
                         </LinearLayout>
@@ -372,7 +379,7 @@
                             android:orientation="vertical">
 
                             <Button
-                                android:id="@+id/btnMinus3"
+                                android:id="@+id/btnMinusNumRound"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:background="@drawable/minus" />
@@ -383,7 +390,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.2">
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -394,7 +400,7 @@
                             android:orientation="vertical">
 
                             <Button
-                                android:id="@+id/btnPlus3"
+                                android:id="@+id/btnPlusNumRound"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:background="@drawable/plus" />
@@ -450,7 +456,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="@string/select_countdown_tone"
+                    android:text="@{model.countdownSound}"
                     android:textColor="@color/colorNormalText"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -475,7 +481,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="@string/select_bell_tone"
+                    android:text="@{model.bellSound}"
                     android:textColor="@color/colorNormalText"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -491,10 +497,13 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/btnStart"
+            android:id="@+id/btnSubmit"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:background="@drawable/okay" />
     </LinearLayout>
 
 </LinearLayout>
+
+
+</layout>
