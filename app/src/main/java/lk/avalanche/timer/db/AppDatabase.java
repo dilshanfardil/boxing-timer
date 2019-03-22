@@ -50,8 +50,8 @@ public abstract class AppDatabase extends RoomDatabase {
                                                     new Data(180000l,
                                                             120000l,
                                                             (long) 10,
-                                                            "",
-                                                            ""));
+                                                            "none",
+                                                            "none"));
                                         }
                                     });
 

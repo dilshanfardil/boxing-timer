@@ -15,6 +15,7 @@ package lk.avalanche.timer.Timer;
  *
  */
 
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 
 import java.io.Serializable;
@@ -30,20 +31,17 @@ public class Timer {
     CountDownTimer timer;
     private static Long round_time=300000l;
     private Long interval_time=0l;
-    private String countdown_sound="";
-    private String bell_sound="";
+    private MediaPlayer bell_sound;
     private static Long pause_time=0l;
     private boolean isPause=false;
-
-    private int current_round=1;
-    private boolean isInRound =true;
+    private int current_round = 0;
+    private boolean isFinishedRound = true;
     private int num_of_rounds;
+    private int current_interval = 0;
 
     public void setDataChange(Data data){
         round_time=data.getRoundTimeInMilisec();
         interval_time=data.getIntervalTimeInMilisec();
-        countdown_sound=data.getCountDownSound();
-        bell_sound=data.getBellSound();
         num_of_rounds=data.getNumberOfRound().intValue();
     }
 
@@ -68,26 +66,30 @@ public class Timer {
     }
 
     public void manageTimer(){
-        if(isInRound){
+        if (isFinishedRound) {
+            current_interval++;
             timer=getTimer(interval_time);
+            bell_sound.start();
             timer.start();
-            isInRound =false;
+            isFinishedRound = false;
         }else {
             current_round++;
             timer=getTimer(round_time);
+            bell_sound.start();
             timer.start();
-            isInRound =true;
+            isFinishedRound = true;
         }
     }
 
-    public void startTimer(){
+    public void startTimer(MediaPlayer bell) {
         if(!isPause){
             timer = getTimer(getRound_time());
         }else {
             current_round=1;
         }
+        bell_sound = bell;
+        bell.start();
         timer.start();
-
         isPause=false;
     }
 
@@ -98,9 +100,10 @@ public class Timer {
     }
 
     public void resetTimer(){
+        if (timer == null) return;
         timer.cancel();
         isPause=false;
-        getLive_time().setValue(isInRound ?getStringTime(round_time):getStringTime(interval_time));
+        getLive_time().setValue(isFinishedRound ? getStringTime(round_time) : getStringTime(interval_time));
     }
     private CountDownTimer getTimer(Long time) {
         return new CountDownTimer(time, 10) {
@@ -114,7 +117,9 @@ public class Timer {
                 if(current_round!=num_of_rounds){
                     manageTimer();
                 }else {
-                    live_time.setValue(":Finished: : : :");
+                    live_time.setValue("00:00:00:00:Finished: : ");
+                    current_round = 0;
+                    current_interval = 0;
                 }
 
             }
@@ -129,8 +134,9 @@ public class Timer {
         long hour=min/60;
         min=min%60;
         sec=sec%60;
-        Serializable serializable = isInRound ? current_round : "Interval";
-        return formatter.format(hour)+":"+formatter.format(min)+":"+formatter.format(sec)+":"+ formatter.format(milSec/10)+":"+ serializable.toString();
+        Serializable serializable = isFinishedRound ? current_round == 0 ? "Warm up: " : "Round:" + current_round : "Interval:" + current_interval;
+        return formatter.format(hour) + ":" + formatter.format(min) + ":" + formatter.format(sec) + ":" +
+                formatter.format(milSec / 10) + ":" + serializable.toString();
     }
 
     public MutableLiveData<String> getLive_time() {

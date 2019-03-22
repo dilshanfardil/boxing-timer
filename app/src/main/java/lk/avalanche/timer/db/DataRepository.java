@@ -50,6 +50,7 @@ public class DataRepository {
     }
 
     public void updateData(Data data){
+        data.setId(1);
         dataDao.updateData(data);
     }
 }

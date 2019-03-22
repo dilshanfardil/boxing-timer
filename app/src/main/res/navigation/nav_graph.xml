@@ -20,20 +20,15 @@
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" >
         <action
-            android:id="@+id/action_setting_to_sound"
-            app:destination="@id/soundSettingFragment" />
+            android:id="@+id/action_setting_to_main"
+            app:destination="@id/mainFragment" />
         <action
-            android:id="@+id/action_setting_to_time"
-            app:destination="@id/timeSettingFragment" />
+            android:id="@+id/action_setting_to_soundSelect"
+            app:destination="@id/soundFragment" />
     </fragment>
     <fragment
-        android:id="@+id/soundSettingFragment"
-        android:name="lk.avalanche.timer.ui.main.SoundSettingFragment"
-        android:label="sound_setting_fragment"
-        tools:layout="@layout/sound_setting_fragment" />
-    <fragment
-        android:id="@+id/timeSettingFragment"
-        android:name="lk.avalanche.timer.ui.main.TimeSettingFragment"
-        android:label="time_setting_fragment"
-        tools:layout="@layout/time_setting_fragment" />
+        android:id="@+id/soundFragment"
+        android:name="lk.avalanche.timer.SoundFragment"
+        android:label="fragment_sound_list"
+        tools:layout="@layout/fragment_sound_list" />
 </navigation>
