@@ -1,4 +1,4 @@
-package lk.avalanche.timer;
+package lk.avalanche.timer.ui.main;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,7 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import lk.avalanche.timer.ListContent.SoundContent;
-import lk.avalanche.timer.ListContent.SoundContent.DummyItem;
+import lk.avalanche.timer.ListContent.SoundContent.SoundItem;
+import lk.avalanche.timer.R;
 
 /**
  * A fragment representing a list of Items.
@@ -104,6 +105,6 @@ public class SoundFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(SoundItem item);
     }
 }

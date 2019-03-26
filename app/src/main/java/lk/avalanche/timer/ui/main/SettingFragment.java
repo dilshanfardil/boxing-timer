@@ -124,6 +124,22 @@ public class SettingFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_setting_to_main);
             }
         });
+
+        binding.bellTone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.createList(true);
+                Navigation.findNavController(v).navigate(R.id.action_setting_to_soundSelect);
+            }
+        });
+
+        binding.countdownTone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.createList(false);
+                Navigation.findNavController(v).navigate(R.id.action_setting_to_soundSelect);
+            }
+        });
     }
 
     @Override

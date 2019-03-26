@@ -24,6 +24,11 @@ import java.text.NumberFormat;
 
 import androidx.lifecycle.MutableLiveData;
 import lk.avalanche.timer.db.Entity.Data;
+import lk.avalanche.timer.ui.main.MainFragment;
+
+import static lk.avalanche.timer.ui.main.MainFragment.notificationBuilder;
+import static lk.avalanche.timer.ui.main.MainFragment.notificationId;
+import static lk.avalanche.timer.ui.main.MainFragment.numMessages;
 
 public class Timer {
     private Data data;
@@ -32,6 +37,8 @@ public class Timer {
     private static Long round_time=300000l;
     private Long interval_time=0l;
     private MediaPlayer bell_sound;
+    private MediaPlayer countdown_sound;
+    private final Integer countdown_limit = 6;
     private static Long pause_time=0l;
     private boolean isPause=false;
     private int current_round = 0;
@@ -81,13 +88,13 @@ public class Timer {
         }
     }
 
-    public void startTimer(MediaPlayer bell) {
+    public void startTimer(MediaPlayer bell, MediaPlayer countdown) {
         if(!isPause){
             timer = getTimer(getRound_time());
-        }else {
-            current_round=1;
         }
+
         bell_sound = bell;
+        countdown_sound = countdown;
         bell.start();
         timer.start();
         isPause=false;
@@ -120,11 +127,16 @@ public class Timer {
                     live_time.setValue("00:00:00:00:Finished: : ");
                     current_round = 0;
                     current_interval = 0;
+                    notificationBuilder.setNumber(++numMessages);
+                    notificationBuilder.setContentTitle("Congratulations you have finished workout");
+                    MainFragment.notificationManager.notify(notificationId, notificationBuilder.build());
                 }
 
             }
         };
     }
+
+    String[] prevSec = {""};
 
     String getStringTime(long millisUntilFinished) {
         NumberFormat formatter = new DecimalFormat("00");
@@ -135,6 +147,17 @@ public class Timer {
         min=min%60;
         sec=sec%60;
         Serializable serializable = isFinishedRound ? current_round == 0 ? "Warm up: " : "Round:" + current_round : "Interval:" + current_interval;
+
+        if (milSec <= 10 & sec == countdown_limit & min < 1)
+            countdown_sound.start();
+        if (!prevSec[0].equals(String.valueOf(sec))) {
+//            notificationBuilder.setOnlyAlertOnce(false);
+            notificationBuilder.setNumber(++numMessages);
+            notificationBuilder.setContentText(formatter.format(min) + ":" + formatter.format(sec));
+            notificationBuilder.setContentTitle(serializable.toString());
+            MainFragment.notificationManager.notify(notificationId, notificationBuilder.build());
+        }
+        prevSec[0] = String.valueOf(sec);
         return formatter.format(hour) + ":" + formatter.format(min) + ":" + formatter.format(sec) + ":" +
                 formatter.format(milSec / 10) + ":" + serializable.toString();
     }

@@ -20,6 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".ui.main.MainFragment$TimerRecever">
+            <intent-filter>
+                <action android:name="PAUSE_ACTION" />
+                <action android:name="STOP_ACTION" />
+
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

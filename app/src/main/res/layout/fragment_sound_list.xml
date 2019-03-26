@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".SoundFragment"
+    tools:context=".ui.main.SoundFragment"
     tools:listitem="@layout/fragment_sound" />

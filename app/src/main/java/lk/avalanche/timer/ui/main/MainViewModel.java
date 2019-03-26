@@ -38,8 +38,9 @@ public class MainViewModel extends AndroidViewModel {
         timer.setDataChange(data);
     }
 
-    public void startTimer(MediaPlayer bell) {
-        timer.startTimer(bell);
+
+    public void startTimer(MediaPlayer bell, MediaPlayer countdown) {
+        timer.startTimer(bell, countdown);
     }
 
     public void pauseTimer() {

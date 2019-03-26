@@ -19,15 +19,18 @@ import android.app.Application;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
+import lk.avalanche.timer.ListContent.SoundContent;
 import lk.avalanche.timer.converter.Converter;
 import lk.avalanche.timer.converter.TimeLongToString;
 import lk.avalanche.timer.converter.TimeStringToLong;
 import lk.avalanche.timer.db.DataRepository;
 import lk.avalanche.timer.db.Entity.Data;
+import lk.avalanche.timer.db.Entity.Sound;
 
 public class SettingViewModel extends AndroidViewModel {
     DataRepository dataRepository;
@@ -56,6 +59,11 @@ public class SettingViewModel extends AndroidViewModel {
         Long invlTime = (Long) converter.convert(dataModel.getInvlTimeMin() + ":" + dataModel.getInvlTimeSec());
         Data data = new Data(roundTime, invlTime, dataModel.getNumOfRound(), dataModel.getCountdownSound(), dataModel.bellSound);
         dataRepository.updateData(data);
+    }
+
+    public void createList(boolean type) {
+        List<Sound> soundByType = dataRepository.getSoundByType(type);
+        SoundContent.makeListContent(soundByType);
     }
 
     public static class DataModel {
