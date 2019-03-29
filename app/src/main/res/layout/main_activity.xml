@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    tools:menu="@menu/main_menu">
+    tools:menu="@menu/main_menu"
+    android:background="@color/colorBackground">
 
     <fragment
         android:id="@+id/fragment"

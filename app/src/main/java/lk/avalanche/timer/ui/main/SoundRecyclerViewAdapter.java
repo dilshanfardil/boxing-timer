@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import lk.avalanche.timer.R;
@@ -35,22 +36,34 @@ public class SoundRecyclerViewAdapter extends RecyclerView.Adapter<SoundRecycler
         return new ViewHolder(view);
     }
 
+    ViewHolder lastSelected = null;
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
-
+        holder.mRadioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onViewClicked(position, holder);
+            }
+        });
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
+                onViewClicked(position, holder);
             }
         });
+    }
+
+    void onViewClicked(int position, ViewHolder holder) {
+        if (null != mListener) {
+            // Notify the active callbacks interface (the activity, if the
+            // fragment is attached to one) that an item has been selected.
+            if (lastSelected != null) lastSelected.mRadioButton.setChecked(false);
+            holder.mRadioButton.setChecked(true);
+            mListener.onListFragmentInteraction(holder.mItem);
+            lastSelected = holder;
+        }
     }
 
     @Override
@@ -61,19 +74,19 @@ public class SoundRecyclerViewAdapter extends RecyclerView.Adapter<SoundRecycler
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
-        public final TextView mContentView;
+        public final RadioButton mRadioButton;
         public SoundItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mIdView = (TextView) view.findViewById(R.id.txtSoundName);
+            mRadioButton = (RadioButton) view.findViewById(R.id.radioBtn);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mRadioButton.getText() + "'";
         }
     }
 }

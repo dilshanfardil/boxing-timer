@@ -24,13 +24,15 @@ public class Data {
     private int id;
     private Long roundTimeInMilisec=0l;
     private Long intervalTimeInMilisec=0l;
+    private Long warmUpTimeInMilisec = 0l;
     private Long numberOfRound=5l;
     private String countDownSound="";
     private String bellSound="";
 
-    public Data(Long roundTimeInMilisec, Long intervalTimeInMilisec, Long numberOfRound, String countDownSound, String bellSound) {
+    public Data(Long roundTimeInMilisec, Long intervalTimeInMilisec, Long warmUpTimeInMilisec, Long numberOfRound, String countDownSound, String bellSound) {
         this.roundTimeInMilisec = roundTimeInMilisec;
         this.intervalTimeInMilisec = intervalTimeInMilisec;
+        this.warmUpTimeInMilisec = warmUpTimeInMilisec;
         this.numberOfRound = numberOfRound;
         this.countDownSound = countDownSound;
         this.bellSound = bellSound;
@@ -58,6 +60,14 @@ public class Data {
 
     public void setIntervalTimeInMilisec(Long intervalTimeInMilisec) {
         this.intervalTimeInMilisec = intervalTimeInMilisec;
+    }
+
+    public Long getWarmUpTimeInMilisec() {
+        return warmUpTimeInMilisec;
+    }
+
+    public void setWarmUpTimeInMilisec(Long warmUpTimeInMilisec) {
+        this.warmUpTimeInMilisec = warmUpTimeInMilisec;
     }
 
     public Long getNumberOfRound() {

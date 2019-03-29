@@ -6,14 +6,14 @@ import android.media.MediaPlayer;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import lk.avalanche.timer.Timer.Timer;
+import lk.avalanche.timer.Timer.TimerRunner;
 import lk.avalanche.timer.converter.Converter;
 import lk.avalanche.timer.converter.TimeLongToString;
 import lk.avalanche.timer.db.DataRepository;
 import lk.avalanche.timer.db.Entity.Data;
 
 public class MainViewModel extends AndroidViewModel {
-    protected static Timer timer;
+    protected static TimerRunner timerRunner;
     private final DataRepository dataRepository;
     public final LiveData<Data> liveData;
     Data value;
@@ -21,38 +21,39 @@ public class MainViewModel extends AndroidViewModel {
         super(application);
         dataRepository=new DataRepository(application);
         value = dataRepository.getInitialData();
-        timer=new Timer(value);
+        timerRunner = new TimerRunner();
+        timerRunner.setDataChange(value);
         liveData=dataRepository.getData();
     }
 
     public Model getInitilaData() {
         Model model = new Model();
         Converter converter = new TimeLongToString();
-        String[] split = converter.convert(value.getRoundTimeInMilisec()).toString().split(":");
+        String[] split = converter.convert(value.getWarmUpTimeInMilisec()).toString().split(":");
         model.setMin(split[0]);
         model.setSec(split[1]);
         return model;
     }
 
     public void changeSetting(Data data){
-        timer.setDataChange(data);
+        timerRunner.setDataChange(data);
     }
 
 
     public void startTimer(MediaPlayer bell, MediaPlayer countdown) {
-        timer.startTimer(bell, countdown);
+        timerRunner.startTimer(bell, countdown);
     }
 
     public void pauseTimer() {
-        timer.pauseTimer();
+        timerRunner.pauseTimer();
     }
 
     public void resetTimer() {
-        timer.resetTimer();
+        timerRunner.resetTimer();
     }
 
     public LiveData<String> getLiveData() {
-        return timer.getLive_time();
+        return timerRunner.getLive_time();
     }
 
     public static class Model{

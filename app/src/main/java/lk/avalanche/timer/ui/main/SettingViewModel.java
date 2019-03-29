@@ -48,7 +48,8 @@ public class SettingViewModel extends AndroidViewModel {
         initialData = dataRepository.getInitialData();
         String[] roundTime = converter.convert(initialData.getRoundTimeInMilisec()).toString().split(":");
         String[] intevalTime = converter.convert(initialData.getIntervalTimeInMilisec()).toString().split(":");
-        DataModel dataModel = new DataModel(intevalTime[0], intevalTime[1], roundTime[0], roundTime[1], initialData.getBellSound(), initialData.getCountDownSound(), initialData.getNumberOfRound());
+        String[] warmUpTime = converter.convert(initialData.getWarmUpTimeInMilisec()).toString().split(":");
+        DataModel dataModel = new DataModel(intevalTime[0], intevalTime[1], roundTime[0], roundTime[1], warmUpTime[0], warmUpTime[1], initialData.getBellSound(), initialData.getCountDownSound(), initialData.getNumberOfRound());
         objectMutableLiveData.setValue(dataModel);
         return objectMutableLiveData;
     }
@@ -57,7 +58,8 @@ public class SettingViewModel extends AndroidViewModel {
         converter = new TimeStringToLong();
         Long roundTime = (Long) converter.convert(dataModel.getRoundTimeMin() + ":" + dataModel.getRoundTimeSec());
         Long invlTime = (Long) converter.convert(dataModel.getInvlTimeMin() + ":" + dataModel.getInvlTimeSec());
-        Data data = new Data(roundTime, invlTime, dataModel.getNumOfRound(), dataModel.getCountdownSound(), dataModel.bellSound);
+        Long warmUpTime = (Long) converter.convert(dataModel.getWarmUpTimeMin() + ":" + dataModel.getWarmUpTimeSec());
+        Data data = new Data(roundTime, invlTime, warmUpTime, dataModel.getNumOfRound(), dataModel.getCountdownSound(), dataModel.bellSound);
         dataRepository.updateData(data);
     }
 
@@ -69,6 +71,7 @@ public class SettingViewModel extends AndroidViewModel {
     public static class DataModel {
         private String invlTimeMin, invlTimeSec;
         private String roundTimeMin, roundTimeSec;
+        private String warmUpTimeMin, warmUpTimeSec;
         private String bellSound, countdownSound;
         NumberFormat formatter = new DecimalFormat("00");
         private Long numOfRound;
@@ -81,6 +84,18 @@ public class SettingViewModel extends AndroidViewModel {
             this.invlTimeSec = invlTimeSec;
             this.roundTimeMin = roundTimeMin;
             this.roundTimeSec = roundTimeSec;
+            this.bellSound = bellSound;
+            this.countdownSound = countdownSound;
+            this.numOfRound = numOfRound;
+        }
+
+        public DataModel(String invlTimeMin, String invlTimeSec, String roundTimeMin, String roundTimeSec, String warmUpTimeMin, String warmUpTimeSec, String bellSound, String countdownSound, Long numOfRound) {
+            this.invlTimeMin = invlTimeMin;
+            this.invlTimeSec = invlTimeSec;
+            this.roundTimeMin = roundTimeMin;
+            this.roundTimeSec = roundTimeSec;
+            this.warmUpTimeMin = warmUpTimeMin;
+            this.warmUpTimeSec = warmUpTimeSec;
             this.bellSound = bellSound;
             this.countdownSound = countdownSound;
             this.numOfRound = numOfRound;
@@ -141,6 +156,30 @@ public class SettingViewModel extends AndroidViewModel {
                 roundTimeSec = 60 + roundTimeSec;
             }
             this.roundTimeSec = formatter.format(roundTimeSec % 60);
+        }
+
+        public String getWarmUpTimeMin() {
+            return warmUpTimeMin;
+        }
+
+        public void setWarmUpTimeMin(Integer integer) {
+            integer = integer <= 0 ? 0 : integer;
+            String warmUpTimeMin = formatter.format(integer);
+            this.warmUpTimeMin = warmUpTimeMin;
+        }
+
+        public String getWarmUpTimeSec() {
+            return warmUpTimeSec;
+        }
+
+        public void setWarmUpTimeSec(int warmUpTimeSec) {
+            if (warmUpTimeSec / 60 >= 1) {
+                setWarmUpTimeMin(Integer.valueOf(getWarmUpTimeMin()) + 1);
+            } else if (warmUpTimeSec < 0) {
+                setWarmUpTimeMin(Integer.valueOf(getWarmUpTimeMin()) - 1);
+                warmUpTimeSec = 60 + warmUpTimeSec;
+            }
+            this.warmUpTimeSec = formatter.format(warmUpTimeSec % 60);
         }
 
         public String getBellSound() {

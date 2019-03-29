@@ -28,7 +28,7 @@ import lk.avalanche.timer.db.dao.SoundDao;
  * property rights in these materials.
  *
  */
-@androidx.room.Database(entities = {Data.class, Sound.class}, version = 3, exportSchema = false)
+@androidx.room.Database(entities = {Data.class, Sound.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract DataDao dataDao();
 
@@ -54,6 +54,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                             database.dataDao().insert(
                                                     new Data(180000l,
                                                             120000l,
+                                                            160000l,
                                                             (long) 10,
                                                             "count_down_1",
                                                             "bell_0"));

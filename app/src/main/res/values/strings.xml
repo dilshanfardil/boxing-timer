@@ -84,7 +84,6 @@
     <string name="zero">00</string>
 
 
-
     <!--Strings for Settings-->
 
     <string name="round_len_minute">02</string>
@@ -106,5 +105,9 @@
 
     <string name="song_list">Cheerful</string>
 
+    <string name="app_id">ca-app-pub-7849905563157369~9469335063</string>
+    <string name="banner_id">ca-app-pub-7849905563157369/9237755996</string>
+    <string name="interstitial_id">ca-app-pub-7849905563157369/1686569038</string>
+    <string name="rewarded">ca-app-pub-7849905563157369/2137639955</string>
 
 </resources>

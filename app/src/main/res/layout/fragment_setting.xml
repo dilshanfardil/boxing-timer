@@ -49,6 +49,137 @@
                         android:orientation="vertical">
 
                         <ImageView
+                            android:id="@+id/icnWarm"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/warm_up" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textWarmUpMinute"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@{model.warmUpTimeMin}"
+                                android:textColor="@color/colorNormalText"
+                                android:textSize="40sp" />
+
+                            <TextView
+                                android:id="@+id/textWarmUpSep"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/colon"
+                                android:textColor="@color/colorNormalText"
+                                android:textSize="40sp" />
+
+                            <TextView
+                                android:id="@+id/textWarmUpSec"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@{model.warmUpTimeSec}"
+                                android:textColor="@color/colorNormalText"
+                                android:textSize="40sp" />
+
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/textViewWarmUp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_marginLeft="0dp"
+                            android:layout_weight="1"
+                            android:text="Warm Up Length"
+                            android:textColor="@color/colorNormalText"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.4"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/btnMinusWarmUpTime"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/minus" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2">
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.4"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/btnPlusWarmUpTime"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/plus" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
                             android:id="@+id/icnGlove"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
@@ -484,23 +615,22 @@
                     android:textColor="@color/colorNormalText"
                     android:textSize="14sp" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/okay" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal|center_vertical"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/btnSubmit"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/okay" />
-    </LinearLayout>
 
 </LinearLayout>
 

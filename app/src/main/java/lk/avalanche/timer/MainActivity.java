@@ -1,23 +1,15 @@
 package lk.avalanche.timer;
 
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Intent;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.RemoteViews;
-import android.widget.Toolbar;
+
+import com.google.android.gms.ads.MobileAds;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.navigation.Navigation;
 import lk.avalanche.timer.ListContent.SoundContent;
 import lk.avalanche.timer.db.DataRepository;
@@ -29,22 +21,14 @@ public class MainActivity extends AppCompatActivity implements SoundFragment.OnL
     private static String CHANNEL_ID = "100";
     DataRepository dataRepository;
     private int notificationId = 10;
+    MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         dataRepository = new DataRepository(this);
-        createNotificationChannel();
-//        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-//                .setSmallIcon(R.drawable.boxing_glove)
-//                .setContentTitle("hi")
-//                .setContentText("ho are you")
-//                .setPriority(NotificationCompat.PRIORITY_MAX)
-//                .setCategory(NotificationCompat.CATEGORY_SYSTEM);
-//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-//        Notification notification = notificationBuilder.build();
-//        notificationManager.notify(notificationId,notification);
+        MobileAds.initialize(this, getResources().getString(R.string.app_id));
 
     }
 
@@ -68,7 +52,15 @@ public class MainActivity extends AppCompatActivity implements SoundFragment.OnL
 
     @Override
     public void onListFragmentInteraction(SoundContent.SoundItem item) {
-        MediaPlayer player = MediaPlayer.create(this, getResourceId(item.content, "raw", getPackageName()));
+        if (player != null) {
+            if (player.isPlaying()) {
+                player.stop();
+                player.release();
+            } else {
+                player.release();
+            }
+        }
+        player = MediaPlayer.create(this, getResourceId(item.content, "raw", getPackageName()));
         player.start();
         Data initialData = dataRepository.getInitialData();
         if (item.type) {
@@ -88,20 +80,26 @@ public class MainActivity extends AppCompatActivity implements SoundFragment.OnL
         }
     }
 
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Test channel";
-            String description = "hi";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MainFragment.notificationManager.cancel(MainFragment.notificationId);
+    }
 }

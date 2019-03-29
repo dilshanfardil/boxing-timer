@@ -9,6 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
@@ -30,6 +33,7 @@ public class SettingFragment extends Fragment {
     FragmentSettingBinding binding;
 
     int sens = 5;
+    private InterstitialAd mInterstitialAd;
 
     public SettingFragment() {
         // Required empty public constructor
@@ -48,6 +52,9 @@ public class SettingFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
         mViewModel = ViewModelProviders.of(this).get(SettingViewModel.class);
+        mInterstitialAd = new InterstitialAd(getContext());
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
         MutableLiveData<SettingViewModel.DataModel> model = mViewModel.getModel();
         model.observe(this, new Observer<SettingViewModel.DataModel>() {
             @Override
@@ -96,6 +103,26 @@ public class SettingFragment extends Fragment {
                 binding.setModel(tempModel);
             }
         });
+        binding.btnPlusWarmUpTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Integer sec = Integer.valueOf(binding.textWarmUpSec.getText().toString());
+                SettingViewModel.DataModel tempModel = binding.getModel();
+                sec += sens;
+                tempModel.setWarmUpTimeSec(sec);
+                binding.setModel(tempModel);
+            }
+        });
+        binding.btnMinusWarmUpTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Integer sec = Integer.valueOf(binding.textWarmUpSec.getText().toString());
+                SettingViewModel.DataModel tempModel = binding.getModel();
+                sec -= sens;
+                tempModel.setWarmUpTimeSec(sec);
+                binding.setModel(tempModel);
+            }
+        });
         binding.btnPlusNumRound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,11 +143,13 @@ public class SettingFragment extends Fragment {
                 binding.setModel(tempModel);
             }
         });
-
         binding.btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mViewModel.updateModel(binding.getModel());
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                }
                 Navigation.findNavController(v).navigate(R.id.action_setting_to_main);
             }
         });
